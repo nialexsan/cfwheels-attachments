@@ -169,12 +169,20 @@
 	<cfargument name="property" type="string" required="true" />
 	<cfscript>
 		// Set the file in a temp location to verify it's not evil
+		//var fileArgs = {
+		//	  action = "upload"
+		//	, fileField = this[arguments.property & "$attachment"]
+		//	, destination = GetTempDirectory()
+		//	, result = "returnValue"
+		//	, nameconflict = "overwrite"
+		//};
+		
 		var fileArgs = {
 			  action = "upload"
 			, fileField = this[arguments.property & "$attachment"]
 			, destination = GetTempDirectory()
 			, result = "returnValue"
-			, nameconflict = "overwrite"
+			, nameconflict = "makeUnique"
 		};
 
 		try
@@ -352,15 +360,16 @@
 					, fileName = loc.storageType
 					, method = "init");
 			
-			loc.pathListLen = ListLen(arguments.path, "/\");
-			loc.path = "";
-			for (loc.i = 1; loc.i < loc.pathListLen; loc.i++)
-			{
-				loc.path = ListAppend(loc.path, ListGetAt(arguments.path, loc.i, "/\"), "/");
-			}
-			loc.path = "/#loc.path#/";
+			//loc.pathListLen = ListLen(arguments.path, "/\");
+			//loc.path = "";
+			//for (loc.i = 1; loc.i < loc.pathListLen; loc.i++)
+			//{
+			//	loc.path = ListAppend(loc.path, ListGetAt(arguments.path, loc.i, "/\"), "/");
+			//}
+			//loc.path = "/#loc.path#/";
 			
-			request.storage[loc.storageType].delete(path=loc.path, directory=true, recursive=true);
+			//request.storage[loc.storageType].delete(path=loc.path, directory=true, recursive=true);
+			request.storage[loc.storageType].delete(path=arguments.path);
 		}
 	</cfscript>
 	<cfreturn arguments />
